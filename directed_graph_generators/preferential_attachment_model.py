@@ -1,8 +1,7 @@
-# import sys
-# sys.path.append("/home/georg/directed-graph-clustering")
 import numpy as np
 
 from directed_graph_generators.base_graph import BaseGraph
+from helpers.edge_list_matrix_converter import Converter
 
 class PreferentialAttachmentModel(BaseGraph):
     def __init__(self, N,m,k,t_0,t_max,community_affinities, initial_graph=None):
@@ -55,27 +54,5 @@ class PreferentialAttachmentModel(BaseGraph):
                     #add edge
                     self._edges.append((t,node))
                 self._vertices.append(t)
-            self.convert_list_of_edges_to_adjacency_matrix()
+            self._adjacency_matrix = Converter.convert_from_edge_list_to_adjacency_matrix(self._edges)
         return self._adjacency_matrix
-    
-    def convert_list_of_edges_to_adjacency_matrix(self):
-        self._adjacency_matrix = np.zeros((len(self._vertices),len(self._vertices)))
-        for edge in self._edges:
-            self._adjacency_matrix[edge[0],edge[1]] = 1
-    
-    def convert_adjacency_matrix_to_list_of_edges(self):
-        self._edges = []
-        for i in range(self._adjacency_matrix.shape[0]):
-            for j in range(self._adjacency_matrix.shape[1]):
-                if self._adjacency_matrix[i,j] == 1:
-                    self._edges.append((i,j))
-
-# if __name__ == "__main__":
-#     N = 100
-#     m = 2
-#     k = 2
-#     t_0 = 10
-#     t_max = 100
-#     community_affinities = np.array([[0.5,0.5],[0.5,0.5]])
-#     graph = PreferentialAttachmentModel(N,m,k,t_0,t_max,community_affinities)
-#     print(graph.adjacency_matrix)
