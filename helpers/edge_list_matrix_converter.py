@@ -4,11 +4,9 @@ import numpy as np
 # Class for converting between edge list and adjacency matrix, regardless of the format.
 class Converter:
     @staticmethod
-    def convert_from_edge_list_to_adjacency_matrix(edge_list: Union[Dict[Tuple[int], Union[float,int]], List[Tuple[int]]]):
+    def convert_from_edge_list_to_adjacency_matrix(N:int, edge_list: Union[Dict[Tuple[int], Union[float,int]], List[Tuple[int]]]):
         """Method for converting from edge list to adjacency matrix. the edge list can be either a list of tuples or a dictionary of tuples where
         the values are weights."""
-
-        N = len(edge_list)
         adjacency_matrix = np.zeros((N,N))
             
         if type(edge_list) == list:
@@ -18,6 +16,8 @@ class Converter:
         elif type(edge_list) == dict:
             for edge in edge_list.keys():
                 adjacency_matrix[edge[0],edge[1]] = edge_list[edge]
+        
+        return adjacency_matrix
         
 
     @staticmethod

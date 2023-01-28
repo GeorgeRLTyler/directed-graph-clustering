@@ -2,7 +2,7 @@ import numpy as np
 from sklearn.cluster import KMeans
 
 
-def DSBM_Clustering_Zanetti(adjacency_matrix,K,l,method='adjacency'):
+def DSBM_Clustering_Zanetti(adjacency_matrix,K,l,method='adjacency',normalize=False):
 # input: np.array, adjacency_matrix --- A[i,j] = 1 if i -> j else 0.
 #        int, K --- number of blocks/communities.
 #        int, l --- number of eigenvectors to consider.
@@ -22,6 +22,11 @@ def DSBM_Clustering_Zanetti(adjacency_matrix,K,l,method='adjacency'):
         #sorting according to largest in magnitude
         idx = np.abs(eig_vals).argsort()
     else:
+        if normalize:
+            # normalize adjacency matrix
+            D = np.diag(np.sum(np.abs(A),axis=0))
+            D = np.sqrt(np.linalg.inv(D))
+            A = D @ A @ D
         eig_vals, eig_vecs = np.linalg.eig(A)
         #sorting according to largest in magnitude
         idx = np.abs(eig_vals).argsort()[::-1]
