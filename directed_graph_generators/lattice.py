@@ -17,7 +17,7 @@ class DirectedLattice(BaseGraph):
         if self._length == None:
             self._length = 10
         self._vertices = list(range(self._width*self._length))
-        self._edges = self._generate_edge_list()#
+        self._edges = self._generate_edge_list()
         self.adjacency_matrix = Converter.convert_from_edge_list_to_adjacency_matrix(N = len(self._vertices),edge_list=self._edges)
     
     def _generate_edge_list(self):
