@@ -18,7 +18,7 @@ def Exponential_Clustering(adjacency_matrix,K,l,t):
         eig_vecs_projected = eig_vecs_projected + np.outer(eig_vecs[:,k],eig_vecs[:,k].conj()) 
     
     eig_vecs_projected  = np.real(eig_vecs_projected)
-    kmeans = KMeans(n_clusters = K).fit(eig_vecs_projected)
+    kmeans = KMeans(n_clusters = K, n_init=100).fit(eig_vecs_projected)
     clusters = kmeans.labels_
     return clusters, eig_vecs_projected
 
@@ -31,6 +31,6 @@ def Exponential_Clustering_no_evecs(adjacency_matrix,K,t):
     exp_A = sp.linalg.expm(t*(np.eye(len(A)) - D_bar_inv @ A @ D_bar_inv))
     cos_A = np.real(exp_A)
     
-    kmeans = KMeans(n_clusters = K).fit(cos_A)
+    kmeans = KMeans(n_clusters = K,n_init=25, random_state = 42).fit(cos_A)
     clusters = kmeans.labels_
     return clusters, cos_A

@@ -38,7 +38,7 @@ def DSBM_Clustering_Zanetti(adjacency_matrix,K,l,method='adjacency',normalize=Fa
     
     eig_vecs_projected  = np.real(eig_vecs_projected)
 
-    kmeans = KMeans(n_clusters = K).fit(eig_vecs_projected)
+    kmeans = KMeans(n_clusters = K,n_init=25, random_state = 42).fit(eig_vecs_projected)
     clusters = kmeans.labels_
 
     return clusters, eig_vecs_projected
