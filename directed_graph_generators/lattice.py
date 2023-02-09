@@ -22,7 +22,21 @@ class DirectedLattice(BaseGraph):
     
     def _generate_edge_list(self):
         self._edges = []
-        if self._directions == None:
+        
+        if self._directions =='random':
+            for l in range(self._length -1):
+                for w in range(self._width -1):
+                    vertex_number = l*self._width + w
+                    if np.random.rand(1) < 0.5:
+                        self._edges.append((vertex_number,vertex_number+1))
+                    else:
+                        self._edges.append((vertex_number+1,vertex_number))
+                    if np.random.rand(1) < 0.5:
+                        self._edges.append((vertex_number,vertex_number+self._width))
+                    else:
+                        self._edges.append((vertex_number+self._width,vertex_number))
+
+        elif self._directions == None:     
             for l in range(self._length -1):
                 for w in range(self._width -1):
                     vertex_number = l*self._width + w
