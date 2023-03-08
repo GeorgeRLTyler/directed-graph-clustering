@@ -1,5 +1,8 @@
+import taichi as ti
 import numpy as np
+
 from scipy.optimize import linprog
+
 
 def wasserstein_distance(X,Y,dist):
     """ Compute the wasserstein distance between two discrete distributions X and Y where dist is the distance matrix between the support points.
