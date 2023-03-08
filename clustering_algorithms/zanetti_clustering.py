@@ -2,7 +2,7 @@ import numpy as np
 from sklearn.cluster import KMeans
 
 
-def DSBM_Clustering_Zanetti(adjacency_matrix,K,l,method='adjacency',normalize=False):
+def DSBM_Clustering_Zanetti(adjacency_matrix,K,l,method='adjacency',normalize=False, roots_of_unity = 4):
 # input: np.array, adjacency_matrix --- A[i,j] = 1 if i -> j else 0.
 #        int, K --- number of blocks/communities.
 #        int, l --- number of eigenvectors to consider.
@@ -10,8 +10,10 @@ def DSBM_Clustering_Zanetti(adjacency_matrix,K,l,method='adjacency',normalize=Fa
 
     # construct Hermitian adjacency matrix
     A_hat = adjacency_matrix
-    #A = (A + A.T)
-    A = (A_hat - A_hat.T)*1j
+    #create kth root of unity
+    w_k = np.exp(2*np.pi*1j/roots_of_unity)
+    #construct adjacency matrix
+    A = w_k*A_hat + np.conj(w_k)*(A_hat.T)
 
     if method == 'laplacian':
         # construct Laplacian matrix
@@ -24,8 +26,8 @@ def DSBM_Clustering_Zanetti(adjacency_matrix,K,l,method='adjacency',normalize=Fa
     else:
         if normalize:
             # normalize adjacency matrix
-            D = np.diag(np.sum(np.abs(A),axis=0))
-            D = np.sqrt(np.linalg.inv(D))
+            D = np.zeros(A.shape)
+            np.fill_diagonal(D,[1/np.sqrt(d) for d in np.sum(np.abs(A), axis=1) if d != 0])
             A = D @ A @ D
         eig_vals, eig_vecs = np.linalg.eig(A)
         #sorting according to largest in magnitude
