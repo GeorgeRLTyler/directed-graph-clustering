@@ -59,3 +59,4 @@ class DirectedStochasticBlockModel(BaseGraph):
             #convert list of list of arrays to block matrix 
             self._adjacency_matrix = np.block(self._adjacency_matrix)
         return self._adjacency_matrix
+    
